@@ -70,9 +70,9 @@ class Record:
             if num.value == number:
                 return num
             
-    def days_to_birthday(self, birthday):
+    def days_to_birthday(self):
         today_date = datetime.now()
-        birthday_to_date = datetime.strptime(birthday, '%d.%m.%Y')
+        birthday_to_date = datetime.strptime(self.birthday.value, '%d.%m.%Y')
         this_year = birthday_to_date.replace(year=today_date.year)
         next_year = birthday_to_date.replace(year=today_date.year+1)
         if this_year.timestamp()-today_date.timestamp() < 0:
@@ -82,8 +82,7 @@ class Record:
 
 
     def __str__(self):
-        return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}"
-    # , birthday: {self.birthday.value}
+        return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}, birthday: {self.birthday.value}"
     
 # class Iterable:
 #     def __init__(self, N):
@@ -143,12 +142,13 @@ if __name__ == '__main__':
     john.edit_phone("1234567890", "1112223333")
     found_phone = john.find_phone("5555555555")
     print(f"{john.name}: {found_phone}")
-    # book.delete("Jane")
-    vicky_record = Record("Vicky")
+    book.delete("Jane")
+    vicky_record = Record("Vicky", "23.03.1996")
     vicky_record.add_phone("7777777777")
     book.add_record(vicky_record)
     vicky = book.find("Vicky")
-    vicks_bithday = vicky.days_to_birthday("23.03.1996")
-    print(vicks_bithday)
+    print(vicky.days_to_birthday())
     print(book.iterator(3))
+    for name, record in book.data.items():
+        print(name, record)
     
