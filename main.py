@@ -130,14 +130,6 @@ class AddressBook(UserDict):
     
     def iterator(self, N=1):
         return AddressBookIterator(self.data, N)
-        # result = []
-        # counter = 1
-        # for record in self.data.values():
-        #     if counter <= N:
-        #         result.append(Record.__str__(record))
-        #         # result.append(record)
-        #         counter += 1
-        # return result
 
         
 
