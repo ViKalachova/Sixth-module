@@ -85,21 +85,50 @@ class Record:
         return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}, birthday: {self.birthday.value}"
     
 # class Iterable:
-#     def __init__(self, N):
+#     def __init__(self, address_book, N):
 #         self.current_value = 0
+#         self.address_book = address_book
 #         self.max = N
 
 #     def __next__(self):
-#         if self.current_value < self.max:
-#             self.current_value += 1
-#             return self.current_value
-#         raise StopIteration
+#         result = []
+#         for record in self.address_book.values():
+#             if self.current_value <= self.max:
+#                 result.append(Record.__str__(record))
+#                 # result.append(record)
+#                 self.current_value += 1
+#             else:
+#                 raise StopIteration
+#         return result
 
 
-# class CustomIterator:
-#     def __iter__(self, N):
-#         return Iterable(N)
+class AddressBookIterator:
+    def __init__(self, address_book, N):
+        self.current_value = 0
+        self.address_book = address_book
+        self.max = N
+        self.records = list(address_book.values())
 
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        result = []
+        for record in self.address_book.values():
+            if self.current_value <= self.max:
+                result.append(record)
+                self.current_value += 1
+            else:
+                raise StopIteration
+        return result
+        # if self.current_value >= len(self.records):
+        #     raise StopIteration
+        # result = []
+        # for index in range(self.current_value, self.current_value+self.max):
+        #     result.append(self.records[index])
+        # self.current_value += self.max
+        # return result
+        
 
 class AddressBook(UserDict):
 
@@ -116,14 +145,17 @@ class AddressBook(UserDict):
             if str(key) == name:
                 del self.data[key]
     
-    def iterator(self, N):
-        result = []
-        counter = 1
-        for i in self.data:
-            if counter <= N:
-                result.append(i)
-                counter += 1
-        return result
+    def iterator(self, N=1):
+        return AddressBookIterator(self.data, N)
+        # result = []
+        # counter = 1
+        # for record in self.data.values():
+        #     if counter <= N:
+        #         result.append(Record.__str__(record))
+        #         # result.append(record)
+        #         counter += 1
+        # return result
+
         
 
 
@@ -149,6 +181,4 @@ if __name__ == '__main__':
     vicky = book.find("Vicky")
     print(vicky.days_to_birthday())
     print(book.iterator(3))
-    for name, record in book.data.items():
-        print(name, record)
     
