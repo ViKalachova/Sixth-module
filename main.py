@@ -84,23 +84,6 @@ class Record:
     def __str__(self):
         return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}, birthday: {self.birthday.value}"
     
-# class Iterable:
-#     def __init__(self, address_book, N):
-#         self.current_value = 0
-#         self.address_book = address_book
-#         self.max = N
-
-#     def __next__(self):
-#         result = []
-#         for record in self.address_book.values():
-#             if self.current_value <= self.max:
-#                 result.append(Record.__str__(record))
-#                 # result.append(record)
-#                 self.current_value += 1
-#             else:
-#                 raise StopIteration
-#         return result
-
 
 class AddressBookIterator:
     def __init__(self, address_book, N):
